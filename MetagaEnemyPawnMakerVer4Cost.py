@@ -151,13 +151,13 @@ class GuardianData():
         self.outfits_total_countermagic = 1 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         self.outfits_total_action = 4 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         if self.guardian_type == "モブ":
-            self.outfits_total_fp = max(10, (random.randint(1, self.level) * 17) - (random.randint(0, self.level) * 7))
+            self.outfits_total_fp = max(10, (random.randint(self.level - 2, self.level) * 10) + (random.randint(0, self.level) * 1))
         elif self.guardian_type == "ソロ":
-            self.outfits_total_fp = max(5, (random.randint(1, self.level) * 13) - (random.randint(0, self.level) * 6))
+            self.outfits_total_fp = max(5, (random.randint(self.level - 2, self.level) * 7) + (random.randint(0, self.level) * 1))
         elif self.guardian_type == "強敵":
-            self.outfits_total_fp = max(50, (random.randint(1, self.level) * 20) - (random.randint(0, self.level) * 9))
-        self.outfits_total_hp = max(10, (random.randint(1, self.level) * 7) - (random.randint(0, self.level) * 4))
-        self.outfits_total_mp = max(10, (random.randint(1, self.level) * 7) - (random.randint(0, self.level) * 4))
+            self.outfits_total_fp = max(50, (random.randint(self.level - 2, self.level) * 20) + (random.randint(0, self.level) * 1))
+        self.outfits_total_hp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
+        self.outfits_total_mp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
         self.outfits_total_battlespeed_total = max(1, int(3 + int((random.randint(0, self.level) * 0.3)) - int((random.randint(0, self.level) * 0.2))))
         #self.outfits_total_battlespeed_total = self.outfits_total_battlespeed_total.replace("ﾏｽ", "")
 
@@ -365,8 +365,8 @@ class GuardianData():
         jsontext["data"]["cost"] = (jsontext["data"]["countermagic"] * 100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["action"] * 100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["fp"] * 10) + jsontext["data"]["cost"]
-        #(jsontext["data"]["hp"] * 0)
-        #(jsontext["data"]["mp"] * 0)
+        jsontext["data"]["cost"] = (jsontext["data"]["hp"] * 10) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mp"] * 10) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["battlespeed"] * 200) +  jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_longrange"])) * 200) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_shortrange"])) * -100) + jsontext["data"]["cost"]
@@ -380,14 +380,14 @@ class GuardianData():
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_longrange"])) * 200) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_shortrange"])) * -100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["swl_attack"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 50) + jsontext["data"]["cost"]
 
         # 出力
         file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"

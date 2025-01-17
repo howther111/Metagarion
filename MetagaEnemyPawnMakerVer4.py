@@ -151,13 +151,13 @@ class GuardianData():
         self.outfits_total_countermagic = 1 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         self.outfits_total_action = 4 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         if self.guardian_type == "モブ":
-            self.outfits_total_fp = max(10, (random.randint(1, self.level) * 17) - (random.randint(0, self.level) * 7))
+            self.outfits_total_fp = max(10, (random.randint(self.level - 2, self.level) * 10) + (random.randint(0, self.level) * 1))
         elif self.guardian_type == "ソロ":
-            self.outfits_total_fp = max(5, (random.randint(1, self.level) * 13) - (random.randint(0, self.level) * 6))
+            self.outfits_total_fp = max(5, (random.randint(self.level - 2, self.level) * 7) + (random.randint(0, self.level) * 1))
         elif self.guardian_type == "強敵":
-            self.outfits_total_fp = max(50, (random.randint(1, self.level) * 20) - (random.randint(0, self.level) * 9))
-        self.outfits_total_hp = max(10, (random.randint(1, self.level) * 7) - (random.randint(0, self.level) * 4))
-        self.outfits_total_mp = max(10, (random.randint(1, self.level) * 7) - (random.randint(0, self.level) * 4))
+            self.outfits_total_fp = max(50, (random.randint(self.level - 2, self.level) * 20) + (random.randint(0, self.level) * 1))
+        self.outfits_total_hp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
+        self.outfits_total_mp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
         self.outfits_total_battlespeed_total = max(1, int(3 + int((random.randint(0, self.level) * 0.3)) - int((random.randint(0, self.level) * 0.2))))
         #self.outfits_total_battlespeed_total = self.outfits_total_battlespeed_total.replace("ﾏｽ", "")
 
@@ -282,6 +282,121 @@ class GuardianData():
 
         print("ガーディアンテキストデータを生成しました")
         self.output_pawn(text)
+
+    def output_online_json_data(self):
+        self.outfits_main_weapon_shortattack_array = self.outfits_main_weapon_shortattack.split("+")
+        self.outfits_sub_weapon_shortattack_array = self.outfits_sub_weapon_shortattack.split("+")
+        self.outfits_main_weapon_longattack_array = self.outfits_main_weapon_longattack.split("+")
+        self.outfits_sub_weapon_longattack_array = self.outfits_sub_weapon_longattack.split("+")
+
+        jsontext = {}
+        jsontext["data"] = {}
+        jsontext["data"]["guardian_name"] = self.guardian_name
+        jsontext["data"]["character_name"] = self.character_name
+        jsontext["data"]["player_name"] = self.player_name
+        jsontext["data"]["level"] = max(0, int(self.level))
+        jsontext["data"]["size"] = self.guardian_size
+        jsontext["data"]["hit"] = max(0, int(self.outfits_total_hit))
+        jsontext["data"]["dodge"] = max(0, int(self.outfits_total_dodge))
+        jsontext["data"]["magic"] = max(0, int(self.outfits_total_magic))
+        jsontext["data"]["countermagic"] = max(0, int(self.outfits_total_countermagic))
+        jsontext["data"]["action"] = max(0, int(self.outfits_total_action))
+        jsontext["data"]["fp"] = max(0, int(self.outfits_total_fp))
+        jsontext["data"]["hp"] = max(0, int(self.outfits_total_hp))
+        jsontext["data"]["mp"] = max(0, int(self.outfits_total_mp))
+        jsontext["data"]["battlespeed"] = max(0, int(self.outfits_total_battlespeed_total))
+        jsontext["data"]["mws_name"] = self.outfits_main_weapon_shortname
+
+        if self.outfits_main_weapon_shortrange == "":
+            jsontext["data"]["mws_shortrange"] = 0
+            jsontext["data"]["mws_longrange"] = 0
+        else:
+            jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
+            jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
+
+        jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
+        jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
+        jsontext["data"]["mws_attack"] = max(0, int(self.outfits_main_weapon_shortattack_array[1]))
+        jsontext["data"]["mws_element"] = self.outfits_main_weapon_shortattack_array[0]
+        jsontext["data"]["sws_name"] = self.outfits_sub_weapon_shortname
+
+        if self.outfits_sub_weapon_shortrange == "":
+            jsontext["data"]["sws_shortrange"] = 0
+            jsontext["data"]["sws_longrange"] = 0
+        else:
+            jsontext["data"]["sws_shortrange"] = int(self.outfits_sub_weapon_shortrange[:1])
+            jsontext["data"]["sws_longrange"] = int(self.outfits_sub_weapon_shortrange[-1:])
+
+        jsontext["data"]["sws_attack"] = max(0, int(self.outfits_sub_weapon_shortattack_array[1]))
+        jsontext["data"]["sws_element"] = self.outfits_sub_weapon_shortattack_array[0]
+        jsontext["data"]["mwl_name"] = self.outfits_main_weapon_longname
+
+        if self.outfits_main_weapon_longrange == "":
+            jsontext["data"]["mwl_shortrange"] = 0
+            jsontext["data"]["mwl_longrange"] = 0
+        else:
+            jsontext["data"]["mwl_shortrange"] = int(self.outfits_main_weapon_longrange[:1])
+            jsontext["data"]["mwl_longrange"] = int(self.outfits_main_weapon_longrange[-1:])
+
+        jsontext["data"]["mwl_attack"] = max(0, int(self.outfits_main_weapon_longattack_array[1]))
+        jsontext["data"]["mwl_element"] = self.outfits_main_weapon_longattack_array[0]
+        jsontext["data"]["swl_name"] = self.outfits_sub_weapon_longname
+
+        if self.outfits_sub_weapon_longrange == "":
+            jsontext["data"]["swl_shortrange"] = 0
+            jsontext["data"]["swl_longrange"] = 0
+        else:
+            jsontext["data"]["swl_shortrange"] = int(self.outfits_sub_weapon_longrange[:1])
+            jsontext["data"]["swl_longrange"] = int(self.outfits_sub_weapon_longrange[-1:])
+
+        jsontext["data"]["swl_attack"] = max(0, int(self.outfits_sub_weapon_longattack_array[1]))
+        jsontext["data"]["swl_element"] = self.outfits_sub_weapon_longattack_array[0]
+        jsontext["data"]["armourstotal_slash"] = max(0, int(self.armourstotal_slash))
+        jsontext["data"]["armourstotal_pierce"] = max(0, int(self.armourstotal_pierce))
+        jsontext["data"]["armourstotal_crash"] = max(0, int(self.armourstotal_crash))
+        jsontext["data"]["armourstotal_fire"] = max(0, int(self.armourstotal_fire))
+        jsontext["data"]["armourstotal_ice"] = max(0, int(self.armourstotal_ice))
+        jsontext["data"]["armourstotal_thunder"] = max(0, int(self.armourstotal_thunder))
+        jsontext["data"]["armourstotal_light"] = max(0, int(self.armourstotal_light))
+        jsontext["data"]["armourstotal_dark"] = max(0, int(self.armourstotal_dark))
+        jsontext["data"]["cost"] = (jsontext["data"]["hit"] * 100)
+        jsontext["data"]["cost"] = (jsontext["data"]["dodge"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["magic"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["countermagic"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["action"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["fp"] * 10) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["hp"] * 10) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mp"] * 10) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["battlespeed"] * 200) +  jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mws_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["sws_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["sws_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["sws_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mwl_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mwl_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mwl_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["swl_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 50) + jsontext["data"]["cost"]
+
+        # 出力
+        file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"
+
+        f = open(file_name, 'w', encoding="utf-8")
+        f.write(json.dumps(jsontext, indent=4))
+        f.close()
+
+        print("ガーディアンオンラインデータを生成しました")
 
     def output_pawn(self, text_data):
         # 駒のココフォリア用データを出力する
@@ -507,6 +622,8 @@ def get_data(level=3, guardian_type="ソロ", guardian_class="ミーレス（カ
         guardian.output_prompt_guardian(image_type="機械恐竜")
     else:
         guardian.output_prompt_guardian(image_type="モビルスーツ")
+
+    #guardian.output_online_json_data()
 
     tkinter.messagebox.showinfo(title="完了", message="駒データを生成しました")
 
