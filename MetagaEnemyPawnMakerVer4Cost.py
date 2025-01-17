@@ -393,7 +393,7 @@ class GuardianData():
         file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"
 
         f = open(file_name, 'w', encoding="utf-8")
-        f.write(json.dumps(jsontext, indent=4))
+        f.write(json.dumps(jsontext, indent=4, ensure_ascii=False))
         f.close()
 
         print("ガーディアンオンラインデータを生成しました")

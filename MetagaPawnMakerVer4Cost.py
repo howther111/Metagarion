@@ -330,8 +330,8 @@ class GuardianData():
         jsontext["data"]["cost"] = (jsontext["data"]["countermagic"] * 100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["action"] * 100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["fp"] * 10) + jsontext["data"]["cost"]
-        #(jsontext["data"]["hp"] * 0)
-        #(jsontext["data"]["mp"] * 0)
+        jsontext["data"]["cost"] = (jsontext["data"]["hp"] * 10) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mp"] * 10) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["battlespeed"] * 200) +  jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_longrange"])) * 200) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_shortrange"])) * -100) + jsontext["data"]["cost"]
@@ -345,20 +345,20 @@ class GuardianData():
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_longrange"])) * 200) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_shortrange"])) * -100) + jsontext["data"]["cost"]
         jsontext["data"]["cost"] = (jsontext["data"]["swl_attack"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 100) + jsontext["data"]["cost"]
-        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 50) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 50) + jsontext["data"]["cost"]
 
         # 出力
         file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"
 
         f = open(file_name, 'w', encoding="utf-8")
-        f.write(json.dumps(jsontext, indent=4))
+        f.write(json.dumps(jsontext, indent=4, ensure_ascii=False))
         f.close()
 
         print("ガーディアンオンラインデータを生成しました")
