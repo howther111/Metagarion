@@ -96,7 +96,6 @@ class GuardianData():
         self.will_bonus = driver.find_element(by=By.ID, value="abl.will.bonus").get_attribute("value")
         self.bllesing_total = driver.find_element(by=By.ID, value="abl.bllesing.total").get_attribute("value")
         self.bllesing_bonus = driver.find_element(by=By.ID, value="abl.bllesing.bonus").get_attribute("value")
-        #self.specials_000 = driver.find_element(by=By.ID, value="specials.0.name").get_attribute("value")
 
         self.specials.append(driver.find_element(by=By.ID, value="specials.0.name").get_attribute("value"))
 
@@ -250,71 +249,119 @@ class GuardianData():
         self.output_pawn(text)
 
     def output_online_json_data(self):
-        outfits_main_weapon_shortattack_array = self.outfits_main_weapon_shortattack.split("+")
-        outfits_sub_weapon_shortattack_array = self.outfits_sub_weapon_shortattack.split("+")
-        outfits_main_weapon_longattack_array = self.outfits_main_weapon_longattack.split("+")
-        outfits_sub_weapon_longattack_array = self.outfits_sub_weapon_longattack.split("+")
+        self.outfits_main_weapon_shortattack_array = self.outfits_main_weapon_shortattack.split("+")
+        self.outfits_sub_weapon_shortattack_array = self.outfits_sub_weapon_shortattack.split("+")
+        self.outfits_main_weapon_longattack_array = self.outfits_main_weapon_longattack.split("+")
+        self.outfits_sub_weapon_longattack_array = self.outfits_sub_weapon_longattack.split("+")
 
         jsontext = {}
+        jsontext["data"] = {}
         jsontext["data"]["guardian_name"] = self.guardian_name
         jsontext["data"]["character_name"] = self.character_name
         jsontext["data"]["player_name"] = self.player_name
-        jsontext["data"]["level"] = int(self.level)
+        jsontext["data"]["level"] = max(0, int(self.level))
         jsontext["data"]["size"] = self.guardian_size
-        jsontext["data"]["hit"] = int(self.outfits_total_hit)
-        jsontext["data"]["dodge"] = int(self.outfits_total_dodge)
-        jsontext["data"]["magic"] = int(self.outfits_total_magic)
-        jsontext["data"]["countermagic"] = int(self.outfits_total_countermagic)
-        jsontext["data"]["action"] = int(self.outfits_total_action)
-        jsontext["data"]["fp"] = int(self.outfits_total_fp)
-        jsontext["data"]["hp"] = int(self.outfits_total_hp)
-        jsontext["data"]["mp"] = int(self.outfits_total_mp)
-        jsontext["data"]["battlespeed"] = int(self.outfits_total_battlespeed_total)
-        jsontext["data"]["mws_name"] = int(self.outfits_main_weapon_shortname)
+        jsontext["data"]["hit"] = max(0, int(self.outfits_total_hit))
+        jsontext["data"]["dodge"] = max(0, int(self.outfits_total_dodge))
+        jsontext["data"]["magic"] = max(0, int(self.outfits_total_magic))
+        jsontext["data"]["countermagic"] = max(0, int(self.outfits_total_countermagic))
+        jsontext["data"]["action"] = max(0, int(self.outfits_total_action))
+        jsontext["data"]["fp"] = max(0, int(self.outfits_total_fp))
+        jsontext["data"]["hp"] = max(0, int(self.outfits_total_hp))
+        jsontext["data"]["mp"] = max(0, int(self.outfits_total_mp))
+        jsontext["data"]["battlespeed"] = max(0, int(self.outfits_total_battlespeed_total))
+        jsontext["data"]["mws_name"] = self.outfits_main_weapon_shortname
+
+        if self.outfits_main_weapon_shortrange == "":
+            jsontext["data"]["mws_shortrange"] = 0
+            jsontext["data"]["mws_longrange"] = 0
+        else:
+            jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
+            jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
+
         jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
         jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
-        jsontext["data"]["mws_attack"] = int(self.outfits_main_weapon_shortattack[1])
+        jsontext["data"]["mws_attack"] = max(0, int(self.outfits_main_weapon_shortattack_array[1]))
         jsontext["data"]["mws_element"] = self.outfits_main_weapon_shortattack_array[0]
-        jsontext["data"]["sws_name"] = int(self.outfits_sub_weapon_shortname)
-        jsontext["data"]["sws_shortrange"] = int(self.outfits_sub_weapon_shortrange[:1])
-        jsontext["data"]["sws_longrange"] = int(self.outfits_sub_weapon_shortrange[-1:])
-        jsontext["data"]["sws_attack"] = int(self.outfits_sub_weapon_shortattack[1])
-        jsontext["data"]["sws_element"] = self.outfits_sub_weapon_shortattack_array[0]
-        jsontext["data"]["mwl_name"] = int(self.outfits_main_weapon_longname)
-        jsontext["data"]["mwl_shortrange"] = int(self.outfits_main_weapon_longrange[:1])
-        jsontext["data"]["mwl_longrange"] = int(self.outfits_main_weapon_longrange[-1:])
-        jsontext["data"]["mwl_attack"] = int(self.outfits_main_weapon_longattack[1])
-        jsontext["data"]["mwl_element"] = self.outfits_main_weapon_longattack_array[0]
-        jsontext["data"]["swl_name"] = int(self.outfits_sub_weapon_longname)
-        jsontext["data"]["swl_shortrange"] = int(self.outfits_sub_weapon_longrange[:1])
-        jsontext["data"]["swl_longrange"] = int(self.outfits_sub_weapon_longrange[-1:])
-        jsontext["data"]["swl_attack"] = int(self.outfits_sub_weapon_longattack[1])
-        jsontext["data"]["swl_element"] = self.outfits_sub_weapon_longattack_array[0]
-        jsontext["data"]["armourstotal_slash"] = int(self.armourstotal_slash)
-        jsontext["data"]["armourstotal_pierce"] = int(self.armourstotal_pierce)
-        jsontext["data"]["armourstotal_crash"] = int(self.armourstotal_crash)
-        jsontext["data"]["armourstotal_fire"] = int(self.armourstotal_fire)
-        jsontext["data"]["armourstotal_ice"] = int(self.armourstotal_ice)
-        jsontext["data"]["armourstotal_thunder"] = int(self.armourstotal_thunder)
-        jsontext["data"]["armourstotal_light"] = int(self.armourstotal_light)
-        jsontext["data"]["armourstotal_dark"] = int(self.armourstotal_dark)
-        jsontext["data"]["cost"] = (jsontext["data"]["hit"] * 100) + \
-        (jsontext["data"]["dodge"] * 100) + \
-        (jsontext["data"]["magic"] * 100) + \
-        (jsontext["data"]["countermagic"] * 100) + \
-        (jsontext["data"]["action"] * 100) + \
-        (jsontext["data"]["fp"] * 10) + \
-        (jsontext["data"]["hp"] * 0) + \
-        (jsontext["data"]["mp"] * 0)
+        jsontext["data"]["sws_name"] = self.outfits_sub_weapon_shortname
 
-        file_name = self.guardian_name + "_ガーディアンテキストデータ.txt"
+        if self.outfits_sub_weapon_shortrange == "":
+            jsontext["data"]["sws_shortrange"] = 0
+            jsontext["data"]["sws_longrange"] = 0
+        else:
+            jsontext["data"]["sws_shortrange"] = int(self.outfits_sub_weapon_shortrange[:1])
+            jsontext["data"]["sws_longrange"] = int(self.outfits_sub_weapon_shortrange[-1:])
+
+        jsontext["data"]["sws_attack"] = max(0, int(self.outfits_sub_weapon_shortattack_array[1]))
+        jsontext["data"]["sws_element"] = self.outfits_sub_weapon_shortattack_array[0]
+        jsontext["data"]["mwl_name"] = self.outfits_main_weapon_longname
+
+        if self.outfits_main_weapon_longrange == "":
+            jsontext["data"]["mwl_shortrange"] = 0
+            jsontext["data"]["mwl_longrange"] = 0
+        else:
+            jsontext["data"]["mwl_shortrange"] = int(self.outfits_main_weapon_longrange[:1])
+            jsontext["data"]["mwl_longrange"] = int(self.outfits_main_weapon_longrange[-1:])
+
+        jsontext["data"]["mwl_attack"] = max(0, int(self.outfits_main_weapon_longattack_array[1]))
+        jsontext["data"]["mwl_element"] = self.outfits_main_weapon_longattack_array[0]
+        jsontext["data"]["swl_name"] = self.outfits_sub_weapon_longname
+
+        if self.outfits_sub_weapon_longrange == "":
+            jsontext["data"]["swl_shortrange"] = 0
+            jsontext["data"]["swl_longrange"] = 0
+        else:
+            jsontext["data"]["swl_shortrange"] = int(self.outfits_sub_weapon_longrange[:1])
+            jsontext["data"]["swl_longrange"] = int(self.outfits_sub_weapon_longrange[-1:])
+
+        jsontext["data"]["swl_attack"] = max(0, int(self.outfits_sub_weapon_longattack_array[1]))
+        jsontext["data"]["swl_element"] = self.outfits_sub_weapon_longattack_array[0]
+        jsontext["data"]["armourstotal_slash"] = max(0, int(self.armourstotal_slash))
+        jsontext["data"]["armourstotal_pierce"] = max(0, int(self.armourstotal_pierce))
+        jsontext["data"]["armourstotal_crash"] = max(0, int(self.armourstotal_crash))
+        jsontext["data"]["armourstotal_fire"] = max(0, int(self.armourstotal_fire))
+        jsontext["data"]["armourstotal_ice"] = max(0, int(self.armourstotal_ice))
+        jsontext["data"]["armourstotal_thunder"] = max(0, int(self.armourstotal_thunder))
+        jsontext["data"]["armourstotal_light"] = max(0, int(self.armourstotal_light))
+        jsontext["data"]["armourstotal_dark"] = max(0, int(self.armourstotal_dark))
+        jsontext["data"]["cost"] = (jsontext["data"]["hit"] * 100)
+        jsontext["data"]["cost"] = (jsontext["data"]["dodge"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["magic"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["countermagic"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["action"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["fp"] * 10) + jsontext["data"]["cost"]
+        #(jsontext["data"]["hp"] * 0)
+        #(jsontext["data"]["mp"] * 0)
+        jsontext["data"]["cost"] = (jsontext["data"]["battlespeed"] * 200) +  jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mws_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mws_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["sws_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["sws_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["sws_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mwl_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["mwl_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["mwl_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_longrange"])) * 200) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (min(10, max(0, jsontext["data"]["swl_shortrange"])) * -100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["swl_attack"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_slash"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_pierce"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_crash"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_fire"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_ice"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_thunder"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_light"] * 100) + jsontext["data"]["cost"]
+        jsontext["data"]["cost"] = (jsontext["data"]["armourstotal_dark"] * 100) + jsontext["data"]["cost"]
+
+        # 出力
+        file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"
 
         f = open(file_name, 'w', encoding="utf-8")
-        f.write(text)
+        f.write(json.dumps(jsontext, indent=4))
         f.close()
 
-        print("ガーディアンテキストデータを生成しました")
-        self.output_pawn(text)
+        print("ガーディアンオンラインデータを生成しました")
 
     def output_pawn(self, text_data):
         # 駒のココフォリア用データを出力する
@@ -352,39 +399,6 @@ class GuardianData():
         jsontext["data"]["status"][4]["max"] = 1
 
         i = 5
-        '''
-        jsontext["data"]["status"].append({})
-        jsontext["data"]["status"][i]["label"] = self.specials_000
-        jsontext["data"]["status"][i]["value"] = 1
-        jsontext["data"]["status"][i]["max"] = 1
-        i = i + 1
-
-        jsontext["data"]["status"].append({})
-        jsontext["data"]["status"][i]["label"] = self.specials_001
-        jsontext["data"]["status"][i]["value"] = 1
-        jsontext["data"]["status"][i]["max"] = 1
-        i = i + 1
-
-        jsontext["data"]["status"].append({})
-        jsontext["data"]["status"][i]["label"] = self.specials_002
-        jsontext["data"]["status"][i]["value"] = 1
-        jsontext["data"]["status"][i]["max"] = 1
-        i = i + 1
-
-        if self.specials_003 != "":
-            jsontext["data"]["status"].append({})
-            jsontext["data"]["status"][i]["label"] = self.specials_003
-            jsontext["data"]["status"][i]["value"] = 1
-            jsontext["data"]["status"][i]["max"] = 1
-            i = i + 1
-
-        if self.specials_004 != "":
-            jsontext["data"]["status"].append({})
-            jsontext["data"]["status"][i]["label"] = self.specials_004
-            jsontext["data"]["status"][i]["value"] = 1
-            jsontext["data"]["status"][i]["max"] = 1
-            i = i + 1
-        '''
 
         for special in self.specials:
             jsontext["data"]["status"].append({})
@@ -561,12 +575,6 @@ class CharacterData():
     will_bonus = 0
     bllesing_total = 0
     bllesing_bonus = 0
-    '''specials_000 = ""
-    specials_001 = ""
-    specials_002 = ""
-    specials_003 = ""
-    specials_004 = ""
-    '''
     specials = []
     add_fortune_point = 0
     battlesubtotal_hit = 0
@@ -595,11 +603,6 @@ class CharacterData():
         self.will_bonus = driver.find_element(by=By.ID, value="abl.will.bonus").get_attribute("value")
         self.bllesing_total = driver.find_element(by=By.ID, value="abl.bllesing.total").get_attribute("value")
         self.bllesing_bonus = driver.find_element(by=By.ID, value="abl.bllesing.bonus").get_attribute("value")
-        '''
-        self.specials_000 = driver.find_element(by=By.ID, value="specials.0.name").get_attribute("value")
-        self.specials_001 = driver.find_element(by=By.ID, value="specials.001.name").get_attribute("value")
-        self.specials_002 = driver.find_element(by=By.ID, value="specials.002.name").get_attribute("value")
-        '''
         self.battlesubtotal_hit = driver.find_element(by=By.ID, value="battlesubtotal.hit").get_attribute("value")
         self.battlesubtotal_dodge = driver.find_element(by=By.ID, value="battlesubtotal.dodge").get_attribute("value")
         self.battlesubtotal_magic = driver.find_element(by=By.ID, value="battlesubtotal.magic").get_attribute("value")
@@ -620,20 +623,6 @@ class CharacterData():
             except:
                 pass
 
-        '''
-        try:
-            self.specials_003 = driver.find_element(by=By.ID, value="specials.003.name").get_attribute("value")
-
-        except:
-            pass
-
-        try:
-            self.specials_004 = driver.find_element(by=By.ID, value="specials.004.name").get_attribute("value")
-
-        except:
-            pass
-        '''
-
         self.add_fortune_point = driver.find_element(by=By.ID, value="addfortunepoint").get_attribute("value")
         print(self.character_name)
 
@@ -653,16 +642,6 @@ class CharacterData():
         for special in self.specials:
             text = text + special + "/"
         text = text[:-1]
-
-        '''
-        text = text + "加護:" + self.specials_000 + "/" + self.specials_001 + "/" + self.specials_002
-
-        if self.specials_003 != "":
-            text = text + "/" + self.specials_003
-
-        if self.specials_004 != "":
-            text = text + "/" + self.specials_004
-        '''
 
         text = text + "\n財産ポイント:" + self.add_fortune_point
 
@@ -790,6 +769,7 @@ def get_data(value):
 
     guardian.input_data(driver, url)
     guardian.output_text()
+    guardian.output_online_json_data()
 
     driver.quit()
 
