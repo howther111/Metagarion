@@ -148,17 +148,22 @@ class GuardianData():
         self.outfits_total_hit = 7 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         self.outfits_total_dodge = 1 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         self.outfits_total_magic = 7 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
-        self.outfits_total_countermagic = 1 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
+        self.outfits_total_countermagic = 1 + max(0,
+                                                  (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         self.outfits_total_action = 4 + max(0, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
         if self.guardian_type == "モブ":
-            self.outfits_total_fp = max(10, (random.randint(self.level - 2, self.level) * 10) + (random.randint(0, self.level) * 1))
+            self.outfits_total_fp = max(10,
+                                        (random.randint(self.level - 2, self.level) * 10) + (random.randint(1, 10) * 1))
         elif self.guardian_type == "ソロ":
-            self.outfits_total_fp = max(5, (random.randint(self.level - 2, self.level) * 7) + (random.randint(0, self.level) * 1))
+            self.outfits_total_fp = max(5,
+                                        (random.randint(self.level - 2, self.level) * 7) + (random.randint(1, 7) * 1))
         elif self.guardian_type == "強敵":
-            self.outfits_total_fp = max(50, (random.randint(self.level - 2, self.level) * 20) + (random.randint(0, self.level) * 1))
-        self.outfits_total_hp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
-        self.outfits_total_mp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(0, self.level) * 1))
-        self.outfits_total_battlespeed_total = max(1, int(3 + int((random.randint(0, self.level) * 0.3)) - int((random.randint(0, self.level) * 0.2))))
+            self.outfits_total_fp = max(50,
+                                        (random.randint(self.level - 2, self.level) * 20) + (random.randint(1, 20) * 1))
+        self.outfits_total_hp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(1, 5) * 1))
+        self.outfits_total_mp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(1, 5) * 1))
+        self.outfits_total_battlespeed_total = max(1, int(3 + int((random.randint(0, self.level) * 0.3)) - int(
+            (random.randint(0, self.level) * 0.2))))
         #self.outfits_total_battlespeed_total = self.outfits_total_battlespeed_total.replace("ﾏｽ", "")
 
         self.add_fortune_point = 0
