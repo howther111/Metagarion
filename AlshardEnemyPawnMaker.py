@@ -861,6 +861,8 @@ def get_data(level=3, guardian_type="ソロ", guardian_class="ミーレス（カ
         guardian.output_prompt_guardian(image_type="怪獣")
     elif guardian_class == "ドラゴン":
         guardian.output_prompt_guardian(image_type="ドラゴン")
+    elif guardian_class == "奈落の使徒":
+        guardian.output_prompt_guardian(image_type="人物")
     elif guardian_class == "艦船":
         guardian.output_prompt_guardian(image_type="宇宙戦艦")
     elif guardian_class == "ミーレス（マシンザウルス）" or guardian_class == "アビスミーレス（マシンザウルス）" or guardian_class == "ガーディアン（マシンザウルス）" or guardian_class == "アビスガーディアン（マシンザウルス）":
