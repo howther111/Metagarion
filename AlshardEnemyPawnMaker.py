@@ -108,8 +108,8 @@ class GuardianData():
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
             self.guardian_name = self.character_name
         elif "ロボット" in guardian_class:
-            self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
-            self.guardian_name = CreateMachineNumber.CreateMachineNumber() + " " + CreatePetName.CreatePetName()
+            self.character_name = CreateMachineNumber.CreateMachineNumber() + " " + CreatePetName.CreatePetName()
+            self.guardian_name = self.character_name
         elif guardian_class == "艦船":
             ship_list = ["駆逐艦", "巡洋艦", "軽巡洋艦", "重巡洋艦", "戦艦", "空母", "強襲揚陸艦"]
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
@@ -245,8 +245,7 @@ class GuardianData():
 
     def output_text(self):
         # 駒のテキストデータを出力する
-        text = "ガーディアン:" + self.guardian_name + "\n" + \
-                   "PC:" + self.character_name +  \
+        text = "名前:" + self.guardian_name + "\n" + \
                    " PL:" + self.player_name + "\n" + \
                    "レベル:" + str(self.level) + \
                    " サイズ:" + self.guardian_size + "\n"\
