@@ -29,7 +29,7 @@ class GuardianData():
     guardian_class_list = ["奈落獣", "艦船", "ミーレス（マシンザウルス）", "アビスミーレス（マシンザウルス）",
                            "ガーディアン（マシンザウルス）", "アビスガーディアン（マシンザウルス）",
                            "ミーレス（カバリエ）", "アビスミーレス（カバリエ）",
-                           "ガーディアン（カバリエ）", "アビスガーディアン（カバリエ）", "ドラゴン"]
+                           "ガーディアン（カバリエ）", "アビスガーディアン（カバリエ）", "ドラゴン", "奈落の使徒"]
     level = 0
     guardian_size = ""
     player_name = ""
@@ -103,6 +103,9 @@ class GuardianData():
             self.guardian_name = self.character_name
         elif guardian_class == "ドラゴン":
             self.character_name = CreatePilotName.CreatePilotName() + "ドラゴン"
+            self.guardian_name = self.character_name
+        elif guardian_class == "奈落の使徒":
+            self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
             self.guardian_name = self.character_name
         elif guardian_class == "艦船":
             ship_list = ["駆逐艦", "巡洋艦", "軽巡洋艦", "重巡洋艦", "戦艦", "空母", "強襲揚陸艦"]
@@ -931,7 +934,7 @@ if __name__ == "__main__":
                                                        "アビスミーレス（マシンザウルス）", "ガーディアン（マシンザウルス）",
                                                        "アビスガーディアン（マシンザウルス）", "ミーレス（カバリエ）",
                                                        "アビスミーレス（カバリエ）", "ガーディアン（カバリエ）",
-                                                       "アビスガーディアン（カバリエ）", "ドラゴン"])
+                                                       "アビスガーディアン（カバリエ）", "ドラゴン", "奈落の使徒"])
     ComboBox2.pack()
 
     Button1 = tkinter.Button(frame7, text=u'生成', command=lambda: [get_data(int(EditBox.get()), ComboBox1.get(), ComboBox2.get())])
