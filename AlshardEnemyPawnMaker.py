@@ -245,8 +245,8 @@ class GuardianData():
 
     def output_text(self):
         # 駒のテキストデータを出力する
-        text = "名前:" + self.guardian_name + "\n" + \
-                   " PL:" + self.player_name + "\n" + \
+        text = self.guardian_name + "\n" + \
+                   "PL:" + self.player_name + "\n" + \
                    "レベル:" + str(self.level) + \
                    " サイズ:" + self.guardian_size + "\n"\
                    "分類:" + self.guardian_type + \
