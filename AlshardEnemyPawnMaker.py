@@ -98,15 +98,18 @@ class GuardianData():
         self.guardian_class = guardian_class
         self.url = "https://elaunomitsugi.booth.pm/items/6432109"
 
-        if guardian_class == "奈落獣":
+        if "モンスター" in guardian_class:
             self.character_name = "奈落獣" + CreatePilotName.CreatePilotName()
             self.guardian_name = self.character_name
-        elif guardian_class == "ドラゴン":
+        elif "ドラゴン" in guardian_class:
             self.character_name = CreatePilotName.CreatePilotName() + "ドラゴン"
             self.guardian_name = self.character_name
-        elif guardian_class == "奈落の使徒":
+        elif "ソルジャー" in guardian_class:
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
             self.guardian_name = self.character_name
+        elif "ロボット" in guardian_class:
+            self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
+            self.guardian_name = CreateMachineNumber.CreateMachineNumber() + " " + CreatePetName.CreatePetName()
         elif guardian_class == "艦船":
             ship_list = ["駆逐艦", "巡洋艦", "軽巡洋艦", "重巡洋艦", "戦艦", "空母", "強襲揚陸艦"]
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
@@ -139,9 +142,9 @@ class GuardianData():
         self.bllesing_bonus = int(self.bllesing_total / 3)
 
         special_num = 0
-        if guardian_class == "ガーディアン（カバリエ）" or guardian_class == "ガーディアン（マシンザウルス）":
+        if "シャード" in guardian_class:
             special_num = 3
-        elif guardian_class == "アビスガーディアン（カバリエ）" or guardian_class == "アビスガーディアン（マシンザウルス）":
+        elif "アビス" in guardian_class:
             special_num = max(3, (random.randint(0, self.level) * 2) - random.randint(0, self.level))
 
         if special_num > 0:
@@ -225,7 +228,7 @@ class GuardianData():
 
         print(self.guardian_name)
         
-    def output_prompt_guardian(self, image_type="人型ロボット"):
+    def output_prompt_guardian(self, image_type="モンスター"):
         text = "文字を描くことなく、以下の特徴を持つ" + image_type + "の全身像を描いてください。 " + \
         "背景：白 カラーリング：自由 " + \
         "右腕武装：" + self.outfits_rightname + " " + \
@@ -279,19 +282,19 @@ class GuardianData():
         if self.outfits_righttarget == "単体":
             pass
         else:
-            outfits_righttargetm = "範囲"
+            outfits_righttargetm = "範囲（選択）"
 
         outfits_lefttargetm = self.outfits_righttarget
         if self.outfits_lefttarget == "単体":
             pass
         else:
-            outfits_lefttargetm = "範囲"
+            outfits_lefttargetm = "範囲（選択）"
 
         outfits_magicrighttargetm = self.outfits_magicrighttarget
         if self.outfits_magicrighttarget == "単体":
             pass
         else:
-            outfits_magicrighttargetm = "範囲"
+            outfits_magicrighttargetm = "範囲（選択）"
 
         outfits_magiclefttargetm = self.outfits_magiclefttarget
         if self.outfits_magiclefttarget == "単体":
@@ -851,24 +854,24 @@ class CharacterData():
         print("未装備駒データを生成しました")
 
 
-def get_data(level=3, guardian_type="ソロ", guardian_class="ミーレス（カバリエ）"):
+def get_data(level=3, guardian_type="ソロ", guardian_class="モンスター"):
     guardian = GuardianData()
     time.sleep(5)
 
     guardian.input_data(level=level, guardian_type=guardian_type, guardian_class=guardian_class)
     guardian.output_text()
-    if guardian_class == "奈落獣":
-        guardian.output_prompt_guardian(image_type="怪獣")
-    elif guardian_class == "ドラゴン":
+    if "モンスター" in guardian_class:
+        guardian.output_prompt_guardian(image_type="モンスター")
+    elif "ドラゴン" in guardian_class:
         guardian.output_prompt_guardian(image_type="ドラゴン")
-    elif guardian_class == "奈落の使徒":
+    elif "ソルジャー" in guardian_class:
         guardian.output_prompt_guardian(image_type="人物")
+    elif "ロボット" in guardian_class:
+        guardian.output_prompt_guardian(image_type="ロボット")
     elif guardian_class == "艦船":
         guardian.output_prompt_guardian(image_type="宇宙戦艦")
-    elif guardian_class == "ミーレス（マシンザウルス）" or guardian_class == "アビスミーレス（マシンザウルス）" or guardian_class == "ガーディアン（マシンザウルス）" or guardian_class == "アビスガーディアン（マシンザウルス）":
-        guardian.output_prompt_guardian(image_type="機械恐竜")
     else:
-        guardian.output_prompt_guardian(image_type="モビルスーツ")
+        guardian.output_prompt_guardian(image_type="モンスター")
 
     #guardian.output_online_json_data()
 
@@ -931,11 +934,11 @@ if __name__ == "__main__":
     Static3.pack()
 
     # エントリー
-    ComboBox2 = ttk.Combobox(frame6, width=25, values=["奈落獣", "艦船", "ミーレス（マシンザウルス）",
-                                                       "アビスミーレス（マシンザウルス）", "ガーディアン（マシンザウルス）",
-                                                       "アビスガーディアン（マシンザウルス）", "ミーレス（カバリエ）",
-                                                       "アビスミーレス（カバリエ）", "ガーディアン（カバリエ）",
-                                                       "アビスガーディアン（カバリエ）", "ドラゴン", "奈落の使徒"])
+    ComboBox2 = ttk.Combobox(frame6, width=25, values=["モンスター", "シャードモンスター",
+                                                       "アビスモンスター", "艦船", "ソルジャー",
+                                                       "シャードソルジャー", "アビスソルジャー",
+                                                       "ロボット", "シャードロボット",
+                                                       "アビスロボット", "ドラゴン", "シャードドラゴン", "アビスドラゴン"])
     ComboBox2.pack()
 
     Button1 = tkinter.Button(frame7, text=u'生成', command=lambda: [get_data(int(EditBox.get()), ComboBox1.get(), ComboBox2.get())])
