@@ -625,7 +625,6 @@ class GuardianData():
         jsontext["data"]["invisible"] = "false"
         jsontext["data"]["hideStatus"] = "false"
         jsontext["data"]["commands"] = "//リソース\n" + \
-                                       "C({FP}-YY)　残りFP\n" + \
                                        "C({HP}-YY)　残りHP\n" + \
                                        "C({EN}-YY)　残りEN\n\n" + \
                                        "//防御、+0欄に修正を記入\nMG+{回避値}+0　近・回避\n" \
