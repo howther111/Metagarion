@@ -89,7 +89,7 @@ class GuardianData():
 
     url = ""
 
-    def input_data(self, level=5, guardian_type="ソロ", guardian_class="ミーレス（カバリエ）"):
+    def input_data(self, level=5, guardian_type="ソロ", guardian_class="奈落獣"):
         self.guardian_type = guardian_type
         self.guardian_class = guardian_class
         self.url = "https://elaunomitsugi.booth.pm/items/6432109"
@@ -104,6 +104,9 @@ class GuardianData():
         elif guardian_class == "ミーレス（マシンザウルス）" or guardian_class == "ガーディアン（マシンザウルス）" or guardian_class == "アビスミーレス（マシンザウルス）"or guardian_class == "アビスガーディアン（マシンザウルス）":
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
             self.guardian_name = "機械恐竜" + CreatePilotName.CreatePilotName()
+        elif guardian_class == "ドラゴン":
+            self.character_name = CreatePilotName.CreatePilotName() + "ドラゴン"
+            self.guardian_name = self.character_name
         else:
             self.character_name = CreatePilotName.CreatePilotName() + "・" + CreatePilotName.CreatePilotName()
             self.guardian_name = CreateMachineNumber.CreateMachineNumber() + " " + CreatePetName.CreatePetName()
@@ -163,7 +166,7 @@ class GuardianData():
         self.outfits_total_hp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(1, 5) * 1))
         self.outfits_total_mp = max(10, (random.randint(self.level - 2, self.level) * 5) + (random.randint(1, 5) * 1))
         self.outfits_total_battlespeed_total = max(1, int(3 + int((random.randint(0, self.level) * 0.3)) - int(
-            (random.randint(0, self.level) * 0.2))))
+            (random.randint(0, self.level) * 0.2)))) * 5
         #self.outfits_total_battlespeed_total = self.outfits_total_battlespeed_total.replace("ﾏｽ", "")
 
         self.add_fortune_point = 0
@@ -173,7 +176,7 @@ class GuardianData():
             main_weapon = create_weapon.create_weapon(self.level)
             self.outfits_main_weapon_shortname = main_weapon.weapon_name
             self.outfits_main_weapon_shortattack = main_weapon.element + "+" + str(main_weapon.attack)
-            self.outfits_main_weapon_shortrange = str(main_weapon.min_range) + "-" + str(main_weapon.max_range)
+            self.outfits_main_weapon_shortrange = str(main_weapon.max_range) + "m"
             self.outfits_main_weapon_shorttarget = main_weapon.target
             weapon_weapon_type = main_weapon.weapon_type
 
@@ -182,7 +185,7 @@ class GuardianData():
             sub_weapon = create_weapon.create_weapon(self.level)
             self.outfits_sub_weapon_shortname = sub_weapon.weapon_name
             self.outfits_sub_weapon_shortattack = sub_weapon.element + "+" + str(sub_weapon.attack)
-            self.outfits_sub_weapon_shortrange = str(sub_weapon.min_range) + "-" + str(sub_weapon.max_range)
+            self.outfits_sub_weapon_shortrange = str(sub_weapon.max_range) + "m"
             self.outfits_sub_weapon_shorttarget = sub_weapon.target
             weapon_weapon_type = sub_weapon.weapon_type
 
@@ -191,7 +194,7 @@ class GuardianData():
             main_weapon = create_weapon.create_weapon(self.level)
             self.outfits_main_weapon_longname = main_weapon.weapon_name
             self.outfits_main_weapon_longattack = main_weapon.element + "+" + str(main_weapon.attack)
-            self.outfits_main_weapon_longrange = str(main_weapon.min_range) + "-" + str(main_weapon.max_range)
+            self.outfits_main_weapon_longrange = str(main_weapon.max_range) + "m"
             self.outfits_main_weapon_longtarget = main_weapon.target
             weapon_weapon_type = main_weapon.weapon_type
 
@@ -200,7 +203,7 @@ class GuardianData():
             sub_weapon = create_weapon.create_weapon(self.level)
             self.outfits_sub_weapon_longname = sub_weapon.weapon_name
             self.outfits_sub_weapon_longattack = sub_weapon.element + "+" + str(sub_weapon.attack)
-            self.outfits_sub_weapon_longrange = str(sub_weapon.min_range) + "-" + str(sub_weapon.max_range)
+            self.outfits_sub_weapon_longrange = str(sub_weapon.max_range) + "m"
             self.outfits_sub_weapon_longtarget = sub_weapon.target
             weapon_weapon_type = sub_weapon.weapon_type
 
@@ -232,9 +235,8 @@ class GuardianData():
                    "【砲撃】" + str(self.outfits_total_magic) + \
                    "【防壁】" + str(self.outfits_total_countermagic) + \
                    "【行動】" + str(self.outfits_total_action) + \
-                   "\n【力場】" + str(self.outfits_total_fp) + \
-                   "【耐久】" + str(self.outfits_total_hp) + \
-                   "【感応】" + str(self.outfits_total_mp) + \
+                   "\n【HP】" + str(self.outfits_total_fp) + \
+                   "【MP】" + str(self.outfits_total_mp) + \
                    "【移動力】" + str(self.outfits_total_battlespeed_total)
 
         text = text + "\n加護:"
@@ -319,8 +321,6 @@ class GuardianData():
             jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
             jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
 
-        jsontext["data"]["mws_shortrange"] = int(self.outfits_main_weapon_shortrange[:1])
-        jsontext["data"]["mws_longrange"] = int(self.outfits_main_weapon_shortrange[-1:])
         jsontext["data"]["mws_attack"] = max(0, int(self.outfits_main_weapon_shortattack_array[1]))
         jsontext["data"]["mws_element"] = self.outfits_main_weapon_shortattack_array[0]
         jsontext["data"]["sws_name"] = self.outfits_sub_weapon_shortname
@@ -398,7 +398,7 @@ class GuardianData():
         file_name = self.guardian_name + "_ガーディアンオンラインデータ.txt"
 
         f = open(file_name, 'w', encoding="utf-8")
-        f.write(json.dumps(jsontext, indent=4))
+        f.write(json.dumps(jsontext, indent=4, ensure_ascii=False))
         f.close()
 
         print("ガーディアンオンラインデータを生成しました")
@@ -594,7 +594,7 @@ class GuardianData():
         file_name = self.guardian_name + "_ガーディアン駒データ.txt"
 
         with open(file_name, 'w', encoding="utf-8") as file:  # 第二引数：writableオプションを指定
-            json.dump(jsontext, file)
+            json.dump(jsontext, file, ensure_ascii=False)
 
         print("ガーディアン駒データを生成しました")
 

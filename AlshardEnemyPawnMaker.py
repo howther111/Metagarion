@@ -19,8 +19,8 @@ import tkinter.ttk as ttk
 class GuardianData():
     size_list = ["S", "M", "M", "M", "L"]
     special_list = ["トール", "オーディン", "フツノミタマ", "タケミカヅチ"
-        , "ヘイムダル", "エーギル", "バルドル", "ヘル", "アカラナータ", "ニョルド", "ネルガル"
-        , "ミューズ", "スィン", "ティール", "ヘルモード", "ルドラ"]
+        , "ヘイムダル", "エーギル", "バルドル", "ヘル", "ニョルド", "ネルガル"
+        , "ミューズ", "スィン", "ティール", "ヘルモード", "マリーシ"]
     character_name = ""
     guardian_name = ""
     guardian_type = ""
@@ -460,7 +460,7 @@ class GuardianData():
         file_name = self.guardian_name + "_エネミーオンラインデータ.txt"
 
         f = open(file_name, 'w', encoding="utf-8")
-        f.write(json.dumps(jsontext, indent=4))
+        f.write(json.dumps(jsontext, indent=4, ensure_ascii=False))
         f.close()
 
         print("エネミーオンラインデータを生成しました")
@@ -650,7 +650,7 @@ class GuardianData():
         file_name = self.guardian_name + "_エネミー駒データ.txt"
 
         with open(file_name, 'w', encoding="utf-8") as file:  # 第二引数：writableオプションを指定
-            json.dump(jsontext, file)
+            json.dump(jsontext, file, ensure_ascii=False)
 
         print("エネミー駒データを生成しました")
 
@@ -848,7 +848,7 @@ class CharacterData():
         file_name = self.character_name + "_未装備駒データ.txt"
 
         with open(file_name, 'w', encoding="utf-8") as file:  # 第二引数：writableオプションを指定
-            json.dump(jsontext, file)
+            json.dump(jsontext, file, ensure_ascii=False)
 
         print("未装備駒データを生成しました")
 
