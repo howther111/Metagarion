@@ -589,7 +589,7 @@ class GuardianData():
         file_name = self.guardian_name + "_ガーディアン駒データ.txt"
 
         with open(file_name, 'w', encoding="utf-8") as file:  # 第二引数：writableオプションを指定
-            json.dump(jsontext, file)
+            json.dump(jsontext, file, ensure_ascii=False)
 
         print("ガーディアン駒データを生成しました")
 
