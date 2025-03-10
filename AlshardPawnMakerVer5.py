@@ -69,6 +69,15 @@ class GuardianData():
 
     items = []
     specials = []
+    skill_name = []
+    skill_class = []
+    skill_level = []
+    skill_type = []
+    skill_timing = []
+    skill_target = []
+    skill_range = []
+    skill_cost = []
+    skill_memo = []
 
     break_flg = 0
 
@@ -77,9 +86,7 @@ class GuardianData():
     def input_data(self, driver, input_url):
         self.url = input_url
         self.character_name = driver.find_element(by=By.ID, value="base.name").get_attribute("value")
-        #self.guardian_name = driver.find_element(by=By.ID, value="base.guardian.name").get_attribute("value")
         self.level = driver.find_element(by=By.ID, value="base.level").get_attribute("value")
-        #self.guardian_size = driver.find_element(by=By.ID, value="base.guardian.size").get_attribute("value")
         self.player_name = driver.find_element(by=By.ID, value="base.player").get_attribute("value")
         self.strong_total = driver.find_element(by=By.ID, value="abl.strong.total").get_attribute("value")
         self.strong_bonus = driver.find_element(by=By.ID, value="abl.strong.bonus").get_attribute("value")
@@ -103,7 +110,7 @@ class GuardianData():
                 specialstr = "specials." + str(specialnum).zfill(3) + ".name"
                 self.specials.append(driver.find_element(by=By.ID, value=specialstr).get_attribute("value"))
             except:
-                pass
+                break
 
         self.outfits_total_hit = driver.find_element(by=By.ID, value="outfits.total.hit").get_attribute("value")
         self.outfits_total_dodge = driver.find_element(by=By.ID, value="outfits.total.dodge").get_attribute("value")
@@ -171,7 +178,41 @@ class GuardianData():
                 itemstr = "items." + str(itemnum).zfill(3) + ".name"
                 self.items.append(driver.find_element(by=By.ID, value=itemstr).get_attribute("value"))
             except:
-                pass
+                break
+
+        self.items.append(driver.find_element(by=By.ID, value="skills.0.name").get_attribute("value"))
+
+        for i in range(998):
+            try:
+                skillnum = i + 1
+                skillnamestr = "skills." + str(skillnum).zfill(3) + ".name"
+                self.skill_name.append(driver.find_element(by=By.ID, value=skillnamestr).get_attribute("value"))
+
+                skillclassstr = "skills." + str(skillnum).zfill(3) + ".class"
+                self.skill_class.append(driver.find_element(by=By.ID, value=skillclassstr).get_attribute("value"))
+
+                skilllevelstr = "skills." + str(skillnum).zfill(3) + ".level"
+                self.skill_level.append(driver.find_element(by=By.ID, value=skilllevelstr).get_attribute("value"))
+
+                skilltypestr = "skills." + str(skillnum).zfill(3) + ".type"
+                self.skill_type.append(driver.find_element(by=By.ID, value=skilltypestr).get_attribute("value"))
+
+                skilltimingstr = "skills." + str(skillnum).zfill(3) + ".timing"
+                self.skill_timing.append(driver.find_element(by=By.ID, value=skilltimingstr).get_attribute("value"))
+
+                skilltargetstr = "skills." + str(skillnum).zfill(3) + ".target"
+                self.skill_target.append(driver.find_element(by=By.ID, value=skilltargetstr).get_attribute("value"))
+
+                skillrangestr = "skills." + str(skillnum).zfill(3) + ".range"
+                self.skill_range.append(driver.find_element(by=By.ID, value=skillrangestr).get_attribute("value"))
+
+                skillcoststr = "skills." + str(skillnum).zfill(3) + ".cost"
+                self.skill_cost.append(driver.find_element(by=By.ID, value=skillcoststr).get_attribute("value"))
+
+                skillmemostr = "skills." + str(skillnum).zfill(3) + ".memo"
+                self.skill_memo.append(driver.find_element(by=By.ID, value=skillmemostr).get_attribute("value"))
+            except:
+                break
 
         print(self.character_name)
 
@@ -416,7 +457,7 @@ class GuardianData():
         jsontext["data"]["secret"] = "false"
         jsontext["data"]["invisible"] = "false"
         jsontext["data"]["hideStatus"] = "false"
-        jsontext["data"]["commands"] = "//リソース\n" + \
+        command = "//リソース\n" + \
                                        "C({HP}-YY)　残りHP\n" + \
                                        "C({MP}-YY)　残りMP\n\n" + \
                                        "//防御、+0欄に修正を記入\nAL+{回避値}+0　近・回避\n" \
@@ -436,6 +477,14 @@ class GuardianData():
                                        self.outfits_magicleftname + "ダメージ\n" \
                                        "\n//能力値判定\nAL+{体力B}  体力判定\nAL+{反射B}  反射判定\nAL+{知覚B}  " \
                                        "知覚判定\nAL+{理知B}  理知判定\nAL+{意志B}  意志判定\nAL+{幸運B}  幸運判定"
+        command = command + "\n//特技"
+        for i in range(len(self.skill_memo)):
+            if not self.skill_memo[i] == "":
+                command = command + "\n特技名:" + self.skill_name[i] + "/クラス:" + self.skill_class[i] + \
+                          "/レベル:" + self.skill_level[i] + "/種別:" + self.skill_type[i] + "/タイミング:" + \
+                          self.skill_timing[i] + "/対象:" + self.skill_target[i] + "/射程:" + self.skill_range[i] + \
+                          "/代償:" +  self.skill_cost[i] + "/備考:" + self.skill_memo[i]
+        jsontext["data"]["commands"] = command
         jsontext["data"]["externalUrl"] = self.url
         file_name = self.character_name + "_キャラクター駒データ.txt"
 
