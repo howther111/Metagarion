@@ -72,6 +72,8 @@ class GuardianData():
 
     items = []
     specials = []
+    items_effect = []
+    specials_effect = []
     skill_name = []
     skill_class = []
     skill_level = []
@@ -113,6 +115,16 @@ class GuardianData():
                 specialnum = i + 1
                 specialstr = "specials." + str(specialnum).zfill(3) + ".name"
                 self.specials.append(driver.find_element(by=By.ID, value=specialstr).get_attribute("value"))
+            except:
+                break
+
+        self.specials_effect.append(driver.find_element(by=By.ID, value="specials.0.effect").get_attribute("value"))
+
+        for i in range(98):
+            try:
+                specialnum = i + 1
+                specialstr = "specials." + str(specialnum).zfill(3) + ".effect"
+                self.specials_effect.append(driver.find_element(by=By.ID, value=specialstr).get_attribute("value"))
             except:
                 break
 
@@ -184,6 +196,43 @@ class GuardianData():
                 self.items.append(driver.find_element(by=By.ID, value=itemstr).get_attribute("value"))
             except:
                 break
+
+        self.items_effect.append(driver.find_element(by=By.ID, value="items.0.effect").get_attribute("value"))
+
+        for i in range(98):
+            try:
+                itemnum = i + 1
+                itemstr = "items." + str(itemnum).zfill(3) + ".effect"
+                self.items_effect.append(driver.find_element(by=By.ID, value=itemstr).get_attribute("value"))
+            except:
+                break
+
+        skillnamestr = "skills.0.name"
+        self.skill_name.append(driver.find_element(by=By.ID, value=skillnamestr).get_attribute("value"))
+
+        skillclassstr = "skills.0.class"
+        self.skill_class.append(driver.find_element(by=By.ID, value=skillclassstr).get_attribute("value"))
+
+        skilllevelstr = "skills.0.level"
+        self.skill_level.append(driver.find_element(by=By.ID, value=skilllevelstr).get_attribute("value"))
+
+        skilltypestr = "skills.0.type"
+        self.skill_type.append(driver.find_element(by=By.ID, value=skilltypestr).get_attribute("value"))
+
+        skilltimingstr = "skills.0.timing"
+        self.skill_timing.append(driver.find_element(by=By.ID, value=skilltimingstr).get_attribute("value"))
+
+        skilltargetstr = "skills.0.target"
+        self.skill_target.append(driver.find_element(by=By.ID, value=skilltargetstr).get_attribute("value"))
+
+        skillrangestr = "skills.0.range"
+        self.skill_range.append(driver.find_element(by=By.ID, value=skillrangestr).get_attribute("value"))
+
+        skillcoststr = "skills.0.cost"
+        self.skill_cost.append(driver.find_element(by=By.ID, value=skillcoststr).get_attribute("value"))
+
+        skillmemostr = "skills.0.memo"
+        self.skill_memo.append(driver.find_element(by=By.ID, value=skillmemostr).get_attribute("value"))
 
         for i in range(998):
             try:
@@ -455,7 +504,7 @@ class GuardianData():
         jsontext["data"]["secret"] = "false"
         jsontext["data"]["invisible"] = "false"
         jsontext["data"]["hideStatus"] = "false"
-        command = "//リソース\n" + \
+        command = "//アクション\nムーブ:\nマイナー:\nメジャー:\n//リソース\n" + \
                                        "C({FP}-YY)　残りFP\n" + \
                                        "C({HP}-YY)　残りHP\n" + \
                                        "C({EN}-YY)　残りEN\n\n" + \
@@ -478,11 +527,22 @@ class GuardianData():
                                        "知覚判定\nMG+{理知B}  理知判定\nMG+{意志B}  意志判定\nMG+{幸運B}  幸運判定"
         command = command + "\n//特技"
         for i in range(len(self.skill_memo)):
-            if not self.skill_memo[i] == "":
-                command = command + "\n特技名:" + self.skill_name[i] + "/クラス:" + self.skill_class[i] + \
+            if not self.skill_name[i] == "":
+                command = command + "\n特技名:" + self.skill_name[i].replace("\n", "") + "/クラス:" + self.skill_class[i] + \
                           "/レベル:" + self.skill_level[i] + "/種別:" + self.skill_type[i] + "/タイミング:" + \
                           self.skill_timing[i] + "/対象:" + self.skill_target[i] + "/射程:" + self.skill_range[i] + \
-                          "/代償:" +  self.skill_cost[i] + "/備考:" + self.skill_memo[i]
+                          "/代償:" +  self.skill_cost[i] + "/備考:" + self.skill_memo[i].replace("\n", "")
+
+        command = command + "\n//加護"
+        for i in range(len(self.specials)):
+            if not self.specials[i] == "":
+                command = command + "\n加護名:" + self.specials[i].replace("\n", "") + "/効果:" + self.specials_effect[i].replace("\n", "")
+
+        command = command + "\n//アイテム"
+        for i in range(len(self.items)):
+            if not self.items[i] == "":
+                command = command + "\nアイテム名:" + self.items[i].replace("\n", "") + "/効果:" + self.items_effect[i].replace("\n", "")
+
         jsontext["data"]["commands"] = command
         jsontext["data"]["externalUrl"] = self.url
         file_name = self.guardian_name + "_ガーディアン駒データ.txt"
